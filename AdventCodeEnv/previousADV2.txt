@@ -1,0 +1,33 @@
+for i in range(len(df)):
+    end_report, end_reached = 8, False
+    for col in df: 
+        if end_reached == False:
+            if df[col][i] == 0:
+                #print('\nReport {} has no value at: {}'.format(i, int(col)))
+                end_report = int(col) - 1
+                end_reached = True
+    #print('\nEnd of report {}: {}'.format(i , end_report))
+    diferencias = df.iloc[i, 0:end_report].diff()
+    diferencias = diferencias.dropna()
+    #print('Report {}, diferencia de columnas 0 - {}: \n{}'.format(i, end_report, diferencias)) 
+    #print('Report {} at column {}: {}'.format(i, end_report, df.iat[i, end_report - 1]))
+    #print('{} - {} = {}'.format(df.iat[i, end_report - 1], df.iat[i, 0], df.iat[i, end_report - 1] - df.iat[i, 0]))
+    df.loc[i, '9'] = int(df.iat[i, end_report - 1]) - int(df.iat[i, 0])
+    #print('Pendiente: {}'.format(df.loc[i, '9']))
+    if df.loc[i, '9'] > 0:
+        for x in diferencias:
+            print('Reporte {} Positivo: {}'.format(i, x))
+            if x < 1 or x > 3:
+                print('Positivo unsafe', x)
+                df.loc[i, '10'] = 0
+    if df.loc[i, '9'] < 0:
+        for x in diferencias:
+            print('Reporte {} Negativo: {}'.format(i, x))
+            if x > -1 or x < -3:
+                print('Negativo unsafe', x)
+                df.loc[i, '10'] = 0
+    #diferecias.append(diferencias)
+
+"editor.suggest.showWords": false - This setting disables word-based suggestions.
+"editor.quickSuggestions": { "other": false, "comments": false, "strings": false } - This setting disables quick suggestions for other code, comments, and strings.
+"editor.inlineSuggest.enabled": false - This setting disables inline suggestions.
